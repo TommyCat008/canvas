@@ -1,0 +1,26 @@
+{
+    "compilerOptions": {
+        "target": "ES6",
+        "module": "ES6", // commonjs 无法识别exports  es6无法兼容import umd 支持both node 和 browser
+        "strict": true,
+        "jsx": "preserve",
+        "moduleResolution": "node",
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+        "declaration": true,
+        "allowJs": true,
+        "removeComments": true,
+        "allowSyntheticDefaultImports": true,
+        "forceConsistentCasingInFileNames": true,
+        "useDefineForClassFields": true,
+        "sourceMap": true,
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["./*"]
+        },
+        "lib": ["esnext", "dom", "dom.iterable", "scripthost", "es2018.promise"],
+        "outDir": "./dist"
+    },
+    "include": ["*.ts", "*.js"],
+    "exclude": ["node_modules"]
+}
