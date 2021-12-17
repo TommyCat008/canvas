@@ -141,4 +141,4 @@ function createAntLine() {
     email_3.createImage(canvas);
     requestAnimationFrame(createAntLine);
 }
-requestAnimationFrame(createAntLine);
+// requestAnimationFrame(createAntLine);

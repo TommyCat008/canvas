@@ -209,6 +209,33 @@ export class Create {
             ctx.restore();
         }
     }
+    _getBezierCurveTo(point1, point2, point3, point4, curvature) {
+        const cp1x = point2.x + (point3.x - point1.x) * curvature;
+        const cp1y = point2.y + (point3.y - point1.y) * curvature;
+        const cp2x = point3.x - (point4.x - point2.x) * curvature;
+        const cp2y = point3.y - (point4.y - point2.y) * curvature;
+        return {
+            cp1x,
+            cp1y,
+            cp2x,
+            cp2y
+        };
+    }
+    drawBezierCurve(paths) {
+        const ctx = this.ctx;
+        const curvature = 0.1;
+        if (ctx) {
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(paths[0].x, paths[0].y);
+            const { cp1x, cp1y, cp2x, cp2y } = this._getBezierCurveTo({ x: 100, y: 100 }, { x: 200, y: 600 }, { x: 300, y: 300 }, { x: 400, y: 600 }, curvature);
+            console.log(200, 600);
+            ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, 200, 600);
+            ctx.stroke();
+            ctx.closePath();
+            ctx.restore();
+        }
+    }
     clearRect(x, y, width, height) {
         const ctx = this.ctx;
         if (ctx) {

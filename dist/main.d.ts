@@ -17,5 +17,12 @@ export declare class Create {
     drawRect(point: Point, width: number, height: number, options?: DrawRectOptionProps): void;
     drawImage(image: CanvasImageSource, options: DrawImageOptionProps): void;
     drawArrow(startPoint: Point, options?: DrawArrowOptionProps): void;
+    _getBezierCurveTo(point1: Point, point2: Point, point3: Point, point4: Point, curvature: number): {
+        cp1x: number;
+        cp1y: number;
+        cp2x: number;
+        cp2y: number;
+    };
+    drawBezierCurve(paths: Point[]): void;
     clearRect(x: number, y: number, width: number, height: number): void;
 }

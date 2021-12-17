@@ -106,5 +106,4 @@ function createAntLine() {
     email_3.createImage(canvas);
     requestAnimationFrame(createAntLine);
 }
-requestAnimationFrame(createAntLine);
 //# sourceMappingURL=index.js.map
