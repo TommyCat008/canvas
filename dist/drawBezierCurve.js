@@ -19,10 +19,12 @@ function drawLine() {
     });
 }
 function drawBezierCurve() {
-    canvas.drawBezierCurve(paths);
+    canvas.drawBezierCurve(paths, {
+        color: '#2072b8'
+    });
 }
 drawBezierCurve();
 paths.forEach((path) => {
-    canvas.drawPoint(path.x, path.y, 4, { color: '#f00' });
+    canvas.drawPoint(path.x, path.y, 4, { color: '#2072b8' });
 });
 //# sourceMappingURL=drawBezierCurve.js.map

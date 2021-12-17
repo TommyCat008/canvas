@@ -49,7 +49,8 @@ function createPath() {
 function createText() {
     canvas.drawText('财', 400, 400, {
         fontSize: '400px',
-        color: '#da4026'
+        // color: '#da4026'
+        color: 'gold'
     });
 }
 
@@ -130,15 +131,16 @@ const email_3 = new DrawAnimateImage(path_3);
 // 实现虚线跑马灯
 function createAntLine() {
     canvas.clearRect(0, 0, 800, 800);
-    // createLine();
-    // createText();
+    createCircle()
+    createLine();
+    createText();
     // createDashRect();
-    createDashLine(path_1);
-    createDashLine(path_2);
-    createDashLine(path_3);
-    email_1.createImage(canvas);
-    email_2.createImage(canvas);
-    email_3.createImage(canvas);
+    // createDashLine(path_1);
+    // createDashLine(path_2);
+    // createDashLine(path_3);
+    // email_1.createImage(canvas);
+    // email_2.createImage(canvas);
+    // email_3.createImage(canvas);
     requestAnimationFrame(createAntLine);
 }
-// requestAnimationFrame(createAntLine);
+requestAnimationFrame(createAntLine);

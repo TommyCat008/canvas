@@ -30,7 +30,7 @@ function createPath() {
 function createText() {
     canvas.drawText('财', 400, 400, {
         fontSize: '400px',
-        color: '#da4026'
+        color: 'gold'
     });
 }
 function createRect() {
@@ -98,12 +98,10 @@ const email_2 = new DrawAnimateImage(path_2);
 const email_3 = new DrawAnimateImage(path_3);
 function createAntLine() {
     canvas.clearRect(0, 0, 800, 800);
-    createDashLine(path_1);
-    createDashLine(path_2);
-    createDashLine(path_3);
-    email_1.createImage(canvas);
-    email_2.createImage(canvas);
-    email_3.createImage(canvas);
+    createCircle();
+    createLine();
+    createText();
     requestAnimationFrame(createAntLine);
 }
+requestAnimationFrame(createAntLine);
 //# sourceMappingURL=index.js.map

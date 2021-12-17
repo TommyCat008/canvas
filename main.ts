@@ -1,6 +1,7 @@
 import {
     CreateOptionProps,
     DrawArrowOptionProps,
+    DrawBezierOptionProps,
     DrawCircleOptionProps,
     DrawImageOptionProps,
     DrawLineOptionProps,
@@ -276,43 +277,32 @@ export class Create {
     }
 
     // 绘制三次贝塞尔曲线
-    drawBezierCurve(paths: Point[]) {
+    drawBezierCurve(paths: Point[], options?: DrawBezierOptionProps) {
         const ctx = this.ctx;
         const curvature = 0.1;
         if (ctx) {
             ctx.save();
             ctx.beginPath();
+            ctx.strokeStyle = options?.color || _color;
             ctx.moveTo(paths[0].x, paths[0].y);
-
-            // paths.forEach((path, index) => {
-            //     if (index === paths.length - 1) {
-            //         return;
-            //     }
-            //     let point1 = paths[index - 1];
-            //     const point2 = paths[index];
-            //     const point3 = paths[index + 1];
-            //     let point4 = paths[index + 2];
-            //     if (index === 0) {
-            //         return;
-            //     }
-            //     if (index === paths.length - 1) {
-            //         point4 = point3;
-            //     }
-            //     // 三次贝塞尔曲线
-            //     const {cp1x, cp1y, cp2x, cp2y} = this._getBezierCurveTo(point1, point2, point3, point4, curvature);
-            //     console.log(point2.x, point2.y);
-            //     ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, point2.x, point2.y);
-            // });
-
-            const {cp1x, cp1y, cp2x, cp2y} = this._getBezierCurveTo(
-                {x: 100, y: 100},
-                {x: 200, y: 600},
-                {x: 300, y: 300},
-                {x: 400, y: 600},
-                curvature
-            );
-            console.log(200, 600);
-            ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, 200, 600);
+            for (let index = 0; index < paths.length; index++) {
+                if (index === paths.length - 1) {
+                    continue;
+                }
+                let point1 = paths[index - 1];
+                const point2 = paths[index];
+                const point3 = paths[index + 1];
+                let point4 = paths[index + 2];
+                if (index === 0) {
+                    point1 = point2;
+                }
+                if (index === paths.length - 2) {
+                    point4 = point3;
+                }
+                // 三次贝塞尔曲线
+                const {cp1x, cp1y, cp2x, cp2y} = this._getBezierCurveTo(point1, point2, point3, point4, curvature);
+                ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, point3.x, point3.y);
+            }
             ctx.stroke();
             ctx.closePath();
             ctx.restore();

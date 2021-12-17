@@ -1,4 +1,4 @@
-import { CreateOptionProps, DrawArrowOptionProps, DrawCircleOptionProps, DrawImageOptionProps, DrawLineOptionProps, DrawRectOptionProps, DrawTextOptionProps, OptionProps, Point } from './interface';
+import { CreateOptionProps, DrawArrowOptionProps, DrawBezierOptionProps, DrawCircleOptionProps, DrawImageOptionProps, DrawLineOptionProps, DrawRectOptionProps, DrawTextOptionProps, OptionProps, Point } from './interface';
 export declare class Create {
     container: HTMLCanvasElement | null;
     ctx: CanvasRenderingContext2D | null;
@@ -23,6 +23,6 @@ export declare class Create {
         cp2x: number;
         cp2y: number;
     };
-    drawBezierCurve(paths: Point[]): void;
+    drawBezierCurve(paths: Point[], options?: DrawBezierOptionProps): void;
     clearRect(x: number, y: number, width: number, height: number): void;
 }

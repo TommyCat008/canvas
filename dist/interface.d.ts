@@ -50,3 +50,6 @@ export interface DrawArrowOptionProps {
     fillColor?: string;
     direction: string;
 }
+export interface DrawBezierOptionProps {
+    color?: string;
+}
