@@ -52,4 +52,5 @@ export interface DrawArrowOptionProps {
 }
 export interface DrawBezierOptionProps {
     color?: string;
+    lineWidth?: number;
 }

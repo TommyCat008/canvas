@@ -24,10 +24,12 @@ function drawLine() {
 
 function drawBezierCurve() {
     canvas.drawBezierCurve(paths, {
-        color: '#2072b8'
+        color: '#2072b8',
+        lineWidth: 2
     });
 }
 
+// 基础对比线
 // drawLine();
 drawBezierCurve();
 

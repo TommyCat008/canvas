@@ -284,6 +284,7 @@ export class Create {
             ctx.save();
             ctx.beginPath();
             ctx.strokeStyle = options?.color || _color;
+            ctx.lineWidth = options?.lineWidth || 1;
             ctx.moveTo(paths[0].x, paths[0].y);
             for (let index = 0; index < paths.length; index++) {
                 if (index === paths.length - 1) {
