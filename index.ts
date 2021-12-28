@@ -131,7 +131,7 @@ const email_3 = new DrawAnimateImage(path_3);
 // 实现虚线跑马灯
 function createAntLine() {
     canvas.clearRect(0, 0, 800, 800);
-    createCircle()
+    createCircle();
     createLine();
     createText();
     // createDashRect();
@@ -144,3 +144,7 @@ function createAntLine() {
     requestAnimationFrame(createAntLine);
 }
 requestAnimationFrame(createAntLine);
+
+if (canvas) {
+    canvas.ctx?.scale(0.5, 0.5);
+}

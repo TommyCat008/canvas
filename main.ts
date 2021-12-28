@@ -64,6 +64,14 @@ export class Create {
         }
     }
 
+    setRotate(angle: number) {
+        // 如果想使用此方法，建议考虑好起始点的位置，因为是相对于起始点位置开始旋转的
+        const ctx = this.ctx;
+        if (ctx) {
+            ctx.rotate(angle);
+        }
+    }
+
     _setCanvasBackground(color: string) {
         if (this.ctx) {
             this.ctx.fillStyle = color;
@@ -214,6 +222,11 @@ export class Create {
         }
     }
 
+    /**
+     * 画图片
+     * @param image
+     * @param options
+     */
     drawImage(image: CanvasImageSource, options: DrawImageOptionProps) {
         const ctx = this.ctx;
         if (ctx) {
@@ -276,7 +289,11 @@ export class Create {
         };
     }
 
-    // 绘制三次贝塞尔曲线
+    /**
+     * 绘制三次贝塞尔曲线
+     * @param paths
+     * @param options
+     */
     drawBezierCurve(paths: Point[], options?: DrawBezierOptionProps) {
         const ctx = this.ctx;
         const curvature = 0.1;
@@ -324,3 +341,9 @@ export class Create {
         }
     }
 }
+
+/**
+ * TODO:
+ * 1、新增旋转的方法
+ * 2、新增平移的方法
+ */

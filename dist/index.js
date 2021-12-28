@@ -1,3 +1,4 @@
+var _a;
 import { Create } from './main.js';
 import DrawAnimateImage from './drawAnimateImage.js';
 const canvas = new Create('canvas', {
@@ -104,4 +105,7 @@ function createAntLine() {
     requestAnimationFrame(createAntLine);
 }
 requestAnimationFrame(createAntLine);
+if (canvas) {
+    (_a = canvas.ctx) === null || _a === void 0 ? void 0 : _a.scale(0.5, 0.5);
+}
 //# sourceMappingURL=index.js.map
