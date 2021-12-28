@@ -36,7 +36,10 @@
             });
 
             canvas.setStartPath(400, 400);
-
+            // 画表盘的的针帽
+            canvas.drawPoint(0, 0, 10, {
+                color: 'red'
+            });
             // 绘制60刻度
             for (let i = 1; i <= 60; i++) {
                 // 起点不在正上方，而是在正右边
@@ -120,11 +123,6 @@
                 }
             );
             canvas.ctx.restore();
-
-            // 画表盘的的针帽
-            canvas.drawPoint(0, 0, 10, {
-                color: 'red'
-            });
 
             canvas.ctx.restore();
         }
