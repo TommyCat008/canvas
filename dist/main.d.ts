@@ -10,7 +10,7 @@ export declare class Create {
     setStartPath(x: number, y: number): void;
     setRotate(angle: number): void;
     _setCanvasBackground(color: string): void;
-    drawText(text: string, x: number, y: number, options: DrawTextOptionProps): void;
+    drawText(text: string, x: number, y: number, options?: DrawTextOptionProps): void;
     drawPoint(x: number, y: number, radius: number, options?: OptionProps): void;
     drawLine(start: Point, end: Point, options?: DrawLineOptionProps): void;
     drawMultipleLine(points: Point[], option?: DrawLineOptionProps): void;

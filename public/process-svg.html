@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>进度条</title>
+        <style>
+            html,
+            body {
+                margin: 0;
+                text-align: center;
+            }
+
+            svg {
+                display: block;
+                margin: auto;
+                border: 1px solid #e9e9e9;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <svg xmlns="http://www.w3.com/2000/svg" width="800" height="800">
+                <circle cx="400" cy="400" r="200" stroke="grey" fill="transparent" stroke-width="15"></circle>
+                <circle
+                    cx="400"
+                    cy="400"
+                    :r="radius"
+                    stroke="green"
+                    fill="transparent"
+                    stroke-width="15"
+                    transform="rotate(-90, 400, 400)"
+                    stroke-lineCap="round"
+                    :stroke-dasharray="`${strokeDasharray},10000`"
+                ></circle>
+                <text
+                    x="400"
+                    y="400"
+                    alignment-baseline="middle"
+                    text-anchor="middle"
+                    font-family="微软雅黑"
+                    font-size="40"
+                    style="fill: green"
+                >
+                    {{percent}}%
+                </text>
+            </svg>
+        </div>
+    </body>
+    <script src="https://cdn.bootcdn.net/ajax/libs/vue/3.2.0-beta.7/vue.global.min.js"></script>
+    <script type="module">
+        const {createApp, reactive, toRefs} = Vue;
+        const app = {
+            setup() {
+                const state = reactive({
+                    radius: 200,
+                    strokeDasharray: 0,
+                    percent: 0
+                });
+                setInterval(() => {
+                    if (state.percent === 100) {
+                        state.percent = 0;
+                    }
+                    state.percent++;
+                    state.strokeDasharray = ((2 * Math.PI * state.radius * state.percent) / 100).toFixed(2);
+                }, 30);
+
+                return {
+                    ...toRefs(state)
+                };
+            }
+        };
+        createApp(app).mount('#app');
+    </script>
+</html>

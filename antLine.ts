@@ -56,7 +56,10 @@ const email_3 = new DrawAnimateImage(path_3);
 // 实现虚线跑马灯
 function createAntLine() {
     canvas.clearRect(0, 0, 800, 800);
-
+    offset += 1;
+    if (offset > 50) {
+        offset = 0;
+    }
     createDashLine(path_1);
     createDashLine(path_2);
     createDashLine(path_3);

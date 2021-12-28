@@ -25,7 +25,6 @@
             const canvas = new Create('canvas', {
                 background: '#fff'
             });
-            console.log(canvas);
 
             const ctx = canvas.ctx;
 
@@ -39,7 +38,7 @@
             let ratio = 0;
 
             function drawText() {
-                const number = ((ratio / 360) * 100).toFixed(2);
+                const number = ((ratio / 360) * 100).toFixed(0);
                 canvas.drawText(`${number}%`, 400, 400, {
                     fontSize: '40px',
                     color: 'green'

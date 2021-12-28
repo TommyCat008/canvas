@@ -86,13 +86,13 @@ export class Create {
      * @param y
      * @param options
      */
-    drawText(text: string, x: number, y: number, options: DrawTextOptionProps) {
+    drawText(text: string, x: number, y: number, options?: DrawTextOptionProps) {
         const ctx = this.ctx;
         if (ctx) {
             // ctx.createLinearGradient() 可以用来创建渐变，但是目前并不需要这个
             ctx.save();
             // 这里要按顺序填写 字重、字号、字体
-            ctx.font = `${options.fontWeight || 400} ${options?.fontSize || '14px'} ${
+            ctx.font = `${options?.fontWeight || 400} ${options?.fontSize || '14px'} ${
                 options?.fontFamily || '微软雅黑'
             }`;
             // 设置文字的水平位置
@@ -104,7 +104,7 @@ export class Create {
                 ctx.strokeText(text, x, y, options.maxWidth);
             } else {
                 ctx.fillStyle = options?.color || '#000';
-                ctx.fillText(text, x, y, options.maxWidth);
+                ctx.fillText(text, x, y, options?.maxWidth);
             }
             ctx.restore();
         }
@@ -145,6 +145,7 @@ export class Create {
                 ctx.setLineDash([6, 6]);
                 ctx.lineDashOffset = options.lineDashOffset || 2;
             }
+            ctx.lineCap = options?.round ? 'round' : 'butt';
             ctx.moveTo(start.x, start.y);
             ctx.lineTo(end.x, end.y);
             ctx.strokeStyle = options?.strokeStyle || _color;

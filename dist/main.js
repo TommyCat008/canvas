@@ -80,7 +80,7 @@ export class Create {
         const ctx = this.ctx;
         if (ctx) {
             ctx.save();
-            ctx.font = `${options.fontWeight || 400} ${(options === null || options === void 0 ? void 0 : options.fontSize) || '14px'} ${(options === null || options === void 0 ? void 0 : options.fontFamily) || '微软雅黑'}`;
+            ctx.font = `${(options === null || options === void 0 ? void 0 : options.fontWeight) || 400} ${(options === null || options === void 0 ? void 0 : options.fontSize) || '14px'} ${(options === null || options === void 0 ? void 0 : options.fontFamily) || '微软雅黑'}`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             if ((options === null || options === void 0 ? void 0 : options.isStroke) === true) {
@@ -89,7 +89,7 @@ export class Create {
             }
             else {
                 ctx.fillStyle = (options === null || options === void 0 ? void 0 : options.color) || '#000';
-                ctx.fillText(text, x, y, options.maxWidth);
+                ctx.fillText(text, x, y, options === null || options === void 0 ? void 0 : options.maxWidth);
             }
             ctx.restore();
         }
@@ -116,6 +116,7 @@ export class Create {
                 ctx.setLineDash([6, 6]);
                 ctx.lineDashOffset = options.lineDashOffset || 2;
             }
+            ctx.lineCap = (options === null || options === void 0 ? void 0 : options.round) ? 'round' : 'butt';
             ctx.moveTo(start.x, start.y);
             ctx.lineTo(end.x, end.y);
             ctx.strokeStyle = (options === null || options === void 0 ? void 0 : options.strokeStyle) || _color;

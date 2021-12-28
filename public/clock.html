@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>时钟</title>
+        <style>
+            html,
+            body {
+                margin: 0;
+            }
+
+            #canvas {
+                display: block;
+                margin: auto;
+                border: 1px solid #e9e9e9;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="canvas" width="800" height="800"></canvas>
+    </body>
+    <script type="module">
+        import {Create} from '../dist/main.js';
+        const canvas = new Create('canvas', {
+            background: '#fff'
+        });
+
+        function drawClock() {
+            canvas.clearRect(0, 0, 800, 800);
+            canvas.ctx.save();
+            // 画一个表盘
+            canvas.drawCircle({x: 400, y: 400}, 300, {
+                strokeStyle: '#000'
+            });
+
+            canvas.setStartPath(400, 400);
+
+            // 绘制60刻度
+            for (let i = 1; i <= 60; i++) {
+                // 起点不在正上方，而是在正右边
+                const theta = ((i - 15) * (2 * Math.PI)) / 60;
+                const x1 = 300 * Math.cos(theta);
+                const y1 = 300 * Math.sin(theta);
+                const x2 = 290 * Math.cos(theta);
+                const y2 = 290 * Math.sin(theta);
+                canvas.drawLine(
+                    {x: x1, y: y1},
+                    {x: x2, y: y2},
+                    {
+                        strokeStyle: 'grey'
+                    }
+                );
+            }
+
+            // 绘制12刻度
+            for (let i = 1; i <= 12; i++) {
+                // 起点不在正上方，而是在正右边
+                const theta = ((i - 3) * (2 * Math.PI)) / 12;
+                const x1 = 300 * Math.cos(theta);
+                const y1 = 300 * Math.sin(theta);
+                const x2 = 280 * Math.cos(theta);
+                const y2 = 280 * Math.sin(theta);
+                const x3 = 260 * Math.cos(theta);
+                const y3 = 260 * Math.sin(theta);
+
+                canvas.drawText(i, x3, y3, {
+                    fontSize: '30px'
+                });
+                canvas.drawLine({x: x1, y: y1}, {x: x2, y: y2});
+            }
+
+            // 绘制时针
+            const date = new Date();
+            const hours = date.getHours();
+            const minutes = date.getMinutes();
+            const seconds = date.getSeconds();
+            canvas.ctx.save();
+            // 这里是24小时制的，需要减去2个单位
+            let theta1 = ((hours - 2) * (2 * Math.PI)) / 12;
+            canvas.setRotate(theta1);
+            canvas.drawLine(
+                {x: 0, y: 0},
+                {x: 80, y: 0},
+                {
+                    width: 10,
+                    strokeStyle: '#000',
+                    round: true
+                }
+            );
+            canvas.ctx.restore();
+
+            // 分针
+            canvas.ctx.save();
+            let theta2 = (minutes * (2 * Math.PI)) / 60;
+            canvas.setRotate(theta2);
+            canvas.drawLine(
+                {x: 0, y: 0},
+                {x: 0, y: -140},
+                {
+                    width: 6,
+                    strokeStyle: '#000',
+                    round: true
+                }
+            );
+            canvas.ctx.restore();
+
+            // 秒针
+            canvas.ctx.save();
+            let theta3 = (seconds * (2 * Math.PI)) / 60;
+            canvas.setRotate(theta3);
+            canvas.drawLine(
+                {x: 0, y: 0},
+                {x: 0, y: -200},
+                {
+                    width: 1,
+                    strokeStyle: 'red',
+                    round: true
+                }
+            );
+            canvas.ctx.restore();
+
+            // 画表盘的的针帽
+            canvas.drawPoint(0, 0, 10, {
+                color: 'red'
+            });
+
+            canvas.ctx.restore();
+        }
+
+        drawClock();
+        setInterval(() => {
+            drawClock();
+        }, 1000);
+    </script>
+</html>

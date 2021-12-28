@@ -10,6 +10,7 @@ export interface DrawLineOptionProps extends OptionProps {
     strokeStyle?: string;
     isLineDash?: boolean;
     lineDashOffset?: number;
+    round?: boolean;
 }
 export interface CreateOptionProps {
     background: string;
