@@ -144,7 +144,3 @@ function createAntLine() {
     requestAnimationFrame(createAntLine);
 }
 requestAnimationFrame(createAntLine);
-
-if (canvas) {
-    canvas.ctx?.scale(0.5, 0.5);
-}

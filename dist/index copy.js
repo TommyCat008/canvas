@@ -104,4 +104,4 @@ function createAntLine() {
     requestAnimationFrame(createAntLine);
 }
 requestAnimationFrame(createAntLine);
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=index%20copy.js.map

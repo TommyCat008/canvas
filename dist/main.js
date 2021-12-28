@@ -64,6 +64,12 @@ export class Create {
             ctx.translate(x, y);
         }
     }
+    setRotate(angle) {
+        const ctx = this.ctx;
+        if (ctx) {
+            ctx.rotate(angle);
+        }
+    }
     _setCanvasBackground(color) {
         if (this.ctx) {
             this.ctx.fillStyle = color;
