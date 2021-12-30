@@ -64,6 +64,10 @@ export class Create {
             ctx.translate(x, y);
         }
     }
+    setDrawPoint(point) {
+        var _a;
+        (_a = this.ctx) === null || _a === void 0 ? void 0 : _a.moveTo(point.x, point.y);
+    }
     setRotate(angle) {
         const ctx = this.ctx;
         if (ctx) {

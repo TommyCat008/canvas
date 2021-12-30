@@ -65,6 +65,14 @@ export class Create {
         }
     }
 
+    /**
+     * 设置落笔点
+     * @param point 
+     */
+    setDrawPoint(point: Point) {
+        this.ctx?.moveTo(point.x, point.y);
+    }
+
     setRotate(angle: number) {
         // 如果想使用此方法，建议考虑好起始点的位置，因为是相对于起始点位置开始旋转的
         const ctx = this.ctx;

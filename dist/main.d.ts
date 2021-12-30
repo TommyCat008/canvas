@@ -8,6 +8,7 @@ export declare class Create {
     constructor(container: string | HTMLCanvasElement, options?: CreateOptionProps);
     createCanvas(container: string | HTMLCanvasElement, options?: CreateOptionProps): void;
     setStartPath(x: number, y: number): void;
+    setDrawPoint(point: Point): void;
     setRotate(angle: number): void;
     setCanvasBackground(color: string): void;
     drawText(text: string, x: number, y: number, options?: DrawTextOptionProps): void;
