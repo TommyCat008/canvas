@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>信号图</title>
+        <style>
+            html,
+            body {
+                margin: 0;
+            }
+
+            #canvas {
+                display: block;
+                margin: auto;
+                border: 1px solid #999;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="canvas" width="800" height="800"></canvas>
+    </body>
+    <script type="module">
+        import {Create} from '../dist/main.js';
+        const canvas = new Create('canvas');
+
+        function drawBattery() {
+            canvas.clearCanvas();
+            canvas.save();
+            canvas.setStartPath(400, 400);
+            // 画矩形
+            canvas.drawRect({x: -50, y: -100}, 100, 200, {
+                strokeColor: '#666'
+            });
+            canvas.restore();
+        }
+
+        drawBattery();
+    </script>
+</html>

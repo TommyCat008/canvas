@@ -237,6 +237,7 @@ export class Create {
                 ctx.lineDashOffset = options.lineDashOffset || 2;
             }
             ctx.strokeRect(point.x, point.y, width, height);
+            // ctx.roundRect(point.x, point.y, width, height, 20);
             ctx.fillStyle = options?.fillColor || _color;
             if (options?.isFill) {
                 ctx.fill();
