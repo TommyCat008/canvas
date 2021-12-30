@@ -278,5 +278,16 @@ export class Create {
             ctx.clearRect(x, y, width, height);
         }
     }
+    clearCanvas() {
+        this.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+    }
+    save() {
+        var _a;
+        (_a = this.ctx) === null || _a === void 0 ? void 0 : _a.save();
+    }
+    restore() {
+        var _a;
+        (_a = this.ctx) === null || _a === void 0 ? void 0 : _a.restore();
+    }
 }
 //# sourceMappingURL=main.js.map

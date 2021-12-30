@@ -5,6 +5,50 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>信号图</title>
+        <style>
+            html,
+            body {
+                margin: 0;
+            }
+
+            #canvas {
+                display: block;
+                margin: auto;
+                border: 1px solid #999;
+            }
+        </style>
     </head>
-    <body></body>
+    <body>
+        <canvas id="canvas" width="800" height="800"></canvas>
+    </body>
+    <script type="module">
+        import {Create} from '../dist/main.js';
+        const canvas = new Create('canvas', {
+            background: '#000'
+        });
+
+        function drawSignal() {
+            canvas.clearCanvas();
+            canvas.ctx.save();
+            canvas.setCanvasBackground('#000');
+            canvas.setStartPath(400, 400);
+            // 画一个点
+            canvas.drawPoint(0, 0, 6, {color: 'green'});
+            // 画一个圆
+            canvas.drawCircle({x: 0, y: 0}, 100 - maxRadius, {
+                isFill: true,
+                fillColor: `rgba(0, 128, 0, ${maxRadius / 100})`
+            });
+            canvas.ctx.restore();
+
+            maxRadius--;
+            if (maxRadius === 0) {
+                maxRadius = 100;
+            }
+            requestAnimationFrame(drawSignal);
+        }
+
+        let maxRadius = 100;
+        drawSignal();
+    </script>
 </html>

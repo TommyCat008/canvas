@@ -196,11 +196,11 @@ export class Create {
 
     /**
      * 绘制圆弧
-     * @param point 
-     * @param radius 
-     * @param startAngle 
-     * @param endAngle 
-     * @param options 
+     * @param point
+     * @param radius
+     * @param startAngle
+     * @param endAngle
+     * @param options
      */
     drawSector(point: Point, radius: number, startAngle: number, endAngle: number, options?: DrawSectorOptionProps) {
         const ctx = this.ctx;
@@ -364,5 +364,26 @@ export class Create {
         if (ctx) {
             ctx.clearRect(x, y, width, height);
         }
+    }
+
+    /**
+     * 清除画布
+     */
+    clearCanvas() {
+        this.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+    }
+
+    /**
+     * 保存当前画布设置
+     */
+    save() {
+        this.ctx?.save();
+    }
+
+    /**
+     * 在save和restore之前的设置均不会保留下来，也就是还原到save之前的设置。
+     */
+    restore() {
+        this.ctx?.restore();
     }
 }

@@ -27,4 +27,7 @@ export declare class Create {
     };
     drawBezierCurve(paths: Point[], options?: DrawBezierOptionProps): void;
     clearRect(x: number, y: number, width: number, height: number): void;
+    clearCanvas(): void;
+    save(): void;
+    restore(): void;
 }
