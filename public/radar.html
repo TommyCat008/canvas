@@ -27,49 +27,71 @@
             background: '#000'
         });
 
-        canvas.setStartPath(400, 400);
+        function drawRadar() {
+            canvas.clearRect(0, 0, 800, 800);
+            canvas.setCanvasBackground('#000');
 
-        // 画一个最大的圆
-        canvas.drawCircle({x: 0, y: 0}, 220, {
-            strokeColor: 'green',
-            lineWidth: 4
-        });
-        canvas.drawCircle({x: 0, y: 0}, 200, {
-            strokeColor: '#00800080',
-            lineWidth: 2
-        });
+            canvas.ctx.save();
+            canvas.setStartPath(400, 400);
+            // 画一个最大的圆
+            canvas.drawCircle({x: 0, y: 0}, 220, {
+                strokeColor: 'green',
+                lineWidth: 4
+            });
+            canvas.drawCircle({x: 0, y: 0}, 190, {
+                strokeColor: '#00800080',
+                lineWidth: 2
+            });
 
-        // 画分割线
-        canvas.ctx.save();
-        for (let i = 0; i < 20; i++) {
-            const x = 220 * Math.cos((i * Math.PI) / 8);
-            const y = 220 * Math.sin((i * Math.PI) / 8);
-            canvas.drawLine(
-                {x: 0, y: 0},
-                {x, y},
-                {
-                    isLineDash: !Boolean(i % 2),
-                    strokeStyle: i % 2 === 0 ? 'green' : '#00800080'
-                }
-            );
+            // 画分割线
+            canvas.ctx.save();
+            for (let i = 0; i < 20; i++) {
+                const x = 220 * Math.cos((i * Math.PI) / 8);
+                const y = 220 * Math.sin((i * Math.PI) / 8);
+                canvas.drawLine(
+                    {x: 0, y: 0},
+                    {x, y},
+                    {
+                        isLineDash: !Boolean(i % 2),
+                        strokeStyle: i % 2 === 0 ? 'green' : '#00800080'
+                    }
+                );
+            }
+
+            canvas.ctx.restore();
+
+            // 同心圆
+            canvas.drawCircle({x: 0, y: 0}, 140, {
+                strokeColor: 'green',
+                lineWidth: 2
+            });
+            canvas.drawCircle({x: 0, y: 0}, 60, {
+                strokeColor: 'green',
+                lineWidth: 2
+            });
+
+            // 开始绘制扇形
+            let startAngle = angle * Math.PI;
+            let endAngle = angle * Math.PI + Math.PI / 180;
+            for (let i = 0; i < 50; i++) {
+                canvas.drawSector({x: 0, y: 0}, 220, startAngle, endAngle, {
+                    fillColor: `rgba(0, 128, 0, ${i / 50})`
+                });
+                startAngle = endAngle;
+                endAngle += Math.PI / 180;
+            }
+
+            canvas.ctx.restore();
+            if (angle === 2) {
+                angle = 0;
+            }
+            // 设置扫描的旋转速度，数值越大速度越快
+            angle += 0.005;
+            requestAnimationFrame(drawRadar);
         }
 
-        canvas.ctx.restore();
+        let angle = 0;
 
-        // 同心圆
-        canvas.drawCircle({x: 0, y: 0}, 140, {
-            strokeColor: 'green',
-            lineWidth: 2
-        });
-        canvas.drawCircle({x: 0, y: 0}, 60, {
-            strokeColor: 'green',
-            lineWidth: 2
-        });
-
-        // 开始绘制扇形
-        // for () {
-
-        // }
-        
+        drawRadar();
     </script>
 </html>

@@ -1,4 +1,4 @@
-import { CreateOptionProps, DrawArrowOptionProps, DrawBezierOptionProps, DrawCircleOptionProps, DrawImageOptionProps, DrawLineOptionProps, DrawRectOptionProps, DrawTextOptionProps, OptionProps, Point } from './interface';
+import { CreateOptionProps, DrawArrowOptionProps, DrawBezierOptionProps, DrawCircleOptionProps, DrawImageOptionProps, DrawLineOptionProps, DrawRectOptionProps, DrawSectorOptionProps, DrawTextOptionProps, OptionProps, Point } from './interface';
 export declare class Create {
     container: HTMLCanvasElement | null;
     ctx: CanvasRenderingContext2D | null;
@@ -9,12 +9,13 @@ export declare class Create {
     createCanvas(container: string | HTMLCanvasElement, options?: CreateOptionProps): void;
     setStartPath(x: number, y: number): void;
     setRotate(angle: number): void;
-    _setCanvasBackground(color: string): void;
+    setCanvasBackground(color: string): void;
     drawText(text: string, x: number, y: number, options?: DrawTextOptionProps): void;
     drawPoint(x: number, y: number, radius: number, options?: OptionProps): void;
     drawLine(start: Point, end: Point, options?: DrawLineOptionProps): void;
     drawMultipleLine(points: Point[], option?: DrawLineOptionProps): void;
     drawCircle(point: Point, radius: number, options?: DrawCircleOptionProps): void;
+    drawSector(point: Point, radius: number, startAngle: number, endAngle: number, options?: DrawSectorOptionProps): void;
     drawRect(point: Point, width: number, height: number, options?: DrawRectOptionProps): void;
     drawImage(image: CanvasImageSource, options: DrawImageOptionProps): void;
     drawArrow(startPoint: Point, options?: DrawArrowOptionProps): void;

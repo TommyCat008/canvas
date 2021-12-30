@@ -33,6 +33,9 @@ export interface DrawRectOptionProps extends OptionProps {
     lineWidth?: number;
     lineDashOffset?: number;
 }
+export interface DrawSectorOptionProps {
+    fillColor?: string;
+}
 export interface DrawCircleOptionProps extends OptionProps {
     isFill?: boolean;
     strokeColor?: string | CanvasGradient | CanvasPattern;

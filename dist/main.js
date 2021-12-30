@@ -55,7 +55,7 @@ export class Create {
         this.ctx = this.container.getContext('2d');
         if (options === null || options === void 0 ? void 0 : options.background) {
             this.canvasBgColor = options.background;
-            this._setCanvasBackground(options.background);
+            this.setCanvasBackground(options.background);
         }
     }
     setStartPath(x, y) {
@@ -70,7 +70,7 @@ export class Create {
             ctx.rotate(angle);
         }
     }
-    _setCanvasBackground(color) {
+    setCanvasBackground(color) {
         if (this.ctx) {
             this.ctx.fillStyle = color;
             this.ctx.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
@@ -147,6 +147,19 @@ export class Create {
             }
             ctx.stroke();
             ctx.closePath();
+            ctx.restore();
+        }
+    }
+    drawSector(point, radius, startAngle, endAngle, options) {
+        const ctx = this.ctx;
+        if (ctx) {
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.fillStyle = (options === null || options === void 0 ? void 0 : options.fillColor) || _color;
+            ctx.arc(point.x, point.y, radius, startAngle, endAngle);
+            ctx.closePath();
+            ctx.fill();
             ctx.restore();
         }
     }

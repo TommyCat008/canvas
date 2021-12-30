@@ -6,6 +6,7 @@ import {
     DrawImageOptionProps,
     DrawLineOptionProps,
     DrawRectOptionProps,
+    DrawSectorOptionProps,
     DrawTextOptionProps,
     OptionProps,
     Point
@@ -48,7 +49,7 @@ export class Create {
         this.ctx = this.container.getContext('2d');
         if (options?.background) {
             this.canvasBgColor = options.background;
-            this._setCanvasBackground(options.background);
+            this.setCanvasBackground(options.background);
         }
     }
 
@@ -72,7 +73,7 @@ export class Create {
         }
     }
 
-    _setCanvasBackground(color: string) {
+    setCanvasBackground(color: string) {
         if (this.ctx) {
             this.ctx.fillStyle = color;
             this.ctx.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
@@ -189,6 +190,29 @@ export class Create {
             }
             ctx.stroke();
             ctx.closePath();
+            ctx.restore();
+        }
+    }
+
+    /**
+     * 绘制圆弧
+     * @param point 
+     * @param radius 
+     * @param startAngle 
+     * @param endAngle 
+     * @param options 
+     */
+    drawSector(point: Point, radius: number, startAngle: number, endAngle: number, options?: DrawSectorOptionProps) {
+        const ctx = this.ctx;
+        if (ctx) {
+            ctx.save();
+            ctx.beginPath();
+            // 这里我不晓得为什么会是需要设置落笔点到这里
+            ctx.moveTo(0, 0);
+            ctx.fillStyle = options?.fillColor || _color;
+            ctx.arc(point.x, point.y, radius, startAngle, endAngle);
+            ctx.closePath();
+            ctx.fill();
             ctx.restore();
         }
     }
