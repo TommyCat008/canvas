@@ -26,7 +26,8 @@
         const canvas = new Create('canvas');
         let offset = 0;
         let offsetNext = 2;
-        let num = 0;
+        let percent = 100;
+        const radius = 200;
 
         // 绘制过渡效果
 
@@ -45,14 +46,14 @@
              */
             canvas.save();
             canvas.ctx.beginPath();
-            canvas.setDrawPoint(-100, 0);
-            for (let i = -200; i <= 200; i += 1) {
+            const x = (radius * percent) / 100;
+            for (let i = -x; i <= x; i += 1) {
                 const y = waveHeight * Math.sin(i * waveWidth + offset);
                 canvas.ctx.lineTo(i, y);
             }
             canvas.ctx.arc(0, 0, 200, 0, Math.PI);
             canvas.ctx.fillStyle = grd;
-            canvas.ctx.fill();
+            canvas.ctx.clip();
             canvas.ctx.fill();
             canvas.restore();
         }
@@ -61,7 +62,8 @@
             canvas.clearCanvas();
             canvas.save();
             canvas.setStartPath(400, 400);
-            canvas.drawCircle({x: 0, y: 0}, 200, {
+            // 画圆
+            canvas.drawCircle({x: 0, y: 0}, radius, {
                 fillStyle: '#fff',
                 strokeColor: '#666'
             });
@@ -83,10 +85,10 @@
 
             offset += 0.06;
             offsetNext += 0.04;
-            num++;
-            if (num === 100) {
-                num = 0;
-            }
+            // percent++;
+            // if (percent === 100) {
+            //     percent = 0;
+            // }
             requestAnimationFrame(drawBattery);
         }
 
