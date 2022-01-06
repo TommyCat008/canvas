@@ -29,10 +29,19 @@ function drawBezierCurve() {
     });
 }
 
+function drawAnimationBezierCurve() {
+    canvas.drawAnimationBezierCurve(paths, {
+        color: '#2072b8',
+        lineWidth: 2
+    });
+}
+
 // 基础对比线
 // drawLine();
-drawBezierCurve();
+// drawBezierCurve();
+drawAnimationBezierCurve();
 
+// 绘制拐点
 paths.forEach((path) => {
     canvas.drawPoint(path.x, path.y, 4, {color: '#2072b8'});
 });

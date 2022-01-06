@@ -11,6 +11,8 @@ import {
     OptionProps,
     Point
 } from './interface';
+import drawBezier from './drawAnimateBezier.js';
+import {getBezierControlPoints} from './utils.js';
 
 const _color = '#000';
 const _lineWidth = 1;
@@ -67,7 +69,7 @@ export class Create {
 
     /**
      * 设置落笔点
-     * @param point 
+     * @param point
      */
     setDrawPoint(point: Point) {
         this.ctx?.moveTo(point.x, point.y);
@@ -311,16 +313,7 @@ export class Create {
     }
 
     _getBezierCurveTo(point1: Point, point2: Point, point3: Point, point4: Point, curvature: number) {
-        const cp1x = point2.x + (point3.x - point1.x) * curvature;
-        const cp1y = point2.y + (point3.y - point1.y) * curvature;
-        const cp2x = point3.x - (point4.x - point2.x) * curvature;
-        const cp2y = point3.y - (point4.y - point2.y) * curvature;
-        return {
-            cp1x,
-            cp1y,
-            cp2x,
-            cp2y
-        };
+        return getBezierControlPoints(point1, point2, point3, point4, curvature);
     }
 
     /**
@@ -355,6 +348,27 @@ export class Create {
                 const {cp1x, cp1y, cp2x, cp2y} = this._getBezierCurveTo(point1, point2, point3, point4, curvature);
                 ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, point3.x, point3.y);
             }
+            ctx.stroke();
+            ctx.closePath();
+            ctx.restore();
+        }
+    }
+
+    /**
+     * 绘制动画版的
+     * @param paths
+     * @param options
+     */
+    drawAnimationBezierCurve(paths: Point[], options?: DrawBezierOptionProps) {
+        const ctx = this.ctx;
+        const curvature = 0.1;
+        if (ctx) {
+            ctx.save();
+            ctx.beginPath();
+            ctx.strokeStyle = options?.color || _color;
+            ctx.lineWidth = options?.lineWidth || 1;
+            ctx.moveTo(paths[0].x, paths[0].y);
+            drawBezier(this.ctx, paths)
             ctx.stroke();
             ctx.closePath();
             ctx.restore();

@@ -24,7 +24,13 @@ function drawBezierCurve() {
         lineWidth: 2
     });
 }
-drawBezierCurve();
+function drawAnimationBezierCurve() {
+    canvas.drawAnimationBezierCurve(paths, {
+        color: '#2072b8',
+        lineWidth: 2
+    });
+}
+drawAnimationBezierCurve();
 paths.forEach((path) => {
     canvas.drawPoint(path.x, path.y, 4, { color: '#2072b8' });
 });

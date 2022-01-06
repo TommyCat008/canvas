@@ -13,13 +13,14 @@ export default class {
     constructor(path: Point[], rate?: number) {
         this.path = path;
         this.len = path.length;
-        this.countVal = rate || 2;
+        this.countVal = rate || 2; // 每次移动的像素值
         this.index = 0;
         this.imagePoint = Object.assign({}, path[this.index]);
         this.comparePoint = Object.assign({}, path[this.index + 1]);
         this.getCountVal();
     }
 
+    // 判断点是否在范围内
     getNearPoint(point: Point): boolean {
         const {x, y} = point;
         const leftX = this.comparePoint.x - Math.abs(this.countVal);
