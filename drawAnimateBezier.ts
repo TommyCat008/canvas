@@ -1,9 +1,15 @@
-import {Point} from './interface';
-import {getBezierControlPoints} from './utils';
+import {DrawBezierOptionProps, Point} from './interface';
+import {getBezierControlPoints} from './utils.js';
 
+const step = 0.05; // 默认设置步长
 let t = 0;
-
-const bezierNodes: Point[] = []; //绘制内部控制点的数组
+let canvasWidth = 0;
+let canvasHeight = 0;
+let optionsProps: DrawBezierOptionProps | undefined;
+let originNodes: Point[] = [];
+const bezierNodes: Point[] = []; // 曲线上的点的集合
+const pathControlPointsGroup: Point[][] = [];
+let index = 0; // 标识当前绘制的pathControlPointsGroup 的index
 let ctx: CanvasRenderingContext2D | null;
 function factorial(num: number): number {
     //递归阶乘
@@ -16,7 +22,7 @@ function factorial(num: number): number {
 
 function bezier(arr: Point[], t: number) {
     //通过各控制点与占比t计算当前贝塞尔曲线上的点坐标
-    var x = 0,
+    let x = 0,
         y = 0,
         n = arr.length - 1;
     arr.forEach(function (item, index) {
@@ -36,15 +42,12 @@ function bezier(arr: Point[], t: number) {
                 Math.pow(t, index);
         }
     });
-    return {
-        x: x,
-        y: y
-    };
+    return {x, y};
 }
 
 function drawNode(nodes: Point[]) {
     if (!nodes.length) return;
-    var _nodes = nodes;
+    const _nodes = nodes;
     const next_nodes = [];
     _nodes.forEach(function (point: Point) {
         const x = point.x;
@@ -53,18 +56,19 @@ function drawNode(nodes: Point[]) {
             if (_nodes.length === 1) {
                 bezierNodes.push(point);
                 if (bezierNodes.length > 1) {
-                    bezierNodes.forEach(function (obj, i) {
+                    bezierNodes.forEach(function (point, i) {
                         if (i) {
-                            var startX = bezierNodes[i - 1].x,
+                            const startX = bezierNodes[i - 1].x,
                                 startY = bezierNodes[i - 1].y,
-                                x = obj.x,
-                                y = obj.y;
+                                x = point.x,
+                                y = point.y;
                             if (ctx) {
                                 ctx.save();
                                 ctx.beginPath();
+                                ctx.strokeStyle = optionsProps?.color || '#000';
+                                ctx.lineWidth = optionsProps?.lineWidth || 1;
                                 ctx.moveTo(startX, startY);
                                 ctx.lineTo(x, y);
-                                ctx.strokeStyle = 'red';
                                 ctx.stroke();
                                 ctx.restore();
                             }
@@ -75,8 +79,8 @@ function drawNode(nodes: Point[]) {
         }
     });
     if (_nodes.length) {
-        for (var i = 0; i < _nodes.length - 1; i++) {
-            var arr = [
+        for (let i = 0; i < _nodes.length - 1; i++) {
+            const arr = [
                 {
                     x: _nodes[i].x,
                     y: _nodes[i].y
@@ -92,27 +96,58 @@ function drawNode(nodes: Point[]) {
     }
 }
 
-const getRandomColor = function () {
-    return '#' + Math.floor(Math.random() * 16777215).toString(16);
-};
-
 function startDraw() {
-    if (t > 1) {
+    if (t > 1 + step && index === pathControlPointsGroup.length - 1) {
+        // 绘制拐点
+        originNodes.forEach((point) => {
+            const {x, y} = point;
+            if (ctx) {
+                ctx.save();
+                ctx.beginPath();
+                ctx.fillStyle = optionsProps?.color || '#000';
+                ctx.arc(x, y, 4, 0, 2 * Math.PI);
+                ctx.closePath();
+                ctx.fill();
+                ctx.restore();
+            }
+        });
+        // 清空数组，重置index的值
+        pathControlPointsGroup.length = 0;
+        index = 0;
         return;
     }
-    t += 0.01;
-    if (ctx) {
-        // ctx.clearRect(0, 0, 800, 800);
+    if (t > 1 && index < pathControlPointsGroup.length - 1) {
+        t = 0;
+        index++;
+        // 设置绘制点
+        const {x, y} = pathControlPointsGroup[index][0];
+        ctx?.moveTo(x, y);
     }
-    // drawNode();
-    // requestAnimationFrame(startDraw);
+    if (ctx) {
+        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+    }
+    drawNode(pathControlPointsGroup[index]);
+    t += step;
+    requestAnimationFrame(startDraw);
 }
 
-export default function drawBezier(c: CanvasRenderingContext2D | null, paths: Point[]) {
+export default function drawBezier(
+    c: CanvasRenderingContext2D | null,
+    width = 0,
+    height = 0,
+    paths: Point[],
+    options?: DrawBezierOptionProps
+) {
+    canvasWidth = width;
+    canvasHeight = height;
     ctx = c;
+    optionsProps = options;
+    originNodes = paths;
     if (!paths.length) {
         return;
     }
+
+    // 获取到所有的q控制点
     for (let index = 0; index < paths.length; index++) {
         if (index === paths.length - 1) {
             continue;
@@ -129,8 +164,8 @@ export default function drawBezier(c: CanvasRenderingContext2D | null, paths: Po
         }
         // 三次贝塞尔曲线
         const {cp1x, cp1y, cp2x, cp2y} = getBezierControlPoints(point1, point2, point3, point4);
-        // [paths[index], {x: cp1x, y: cp1y}, {x: cp2x, y: cp2y}, {x: point3.x, y: point3.y}]
+        pathControlPointsGroup.push([paths[index], {x: cp1x, y: cp1y}, {x: cp2x, y: cp2y}, {x: point3.x, y: point3.y}]);
     }
-
-    // startDraw();
+    // 拿到了所有的点，开始进行绘制
+    startDraw();
 }

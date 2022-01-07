@@ -5,3 +5,4 @@ export declare function getBezierControlPoints(point1: Point, point2: Point, poi
     cp2x: number;
     cp2y: number;
 };
+export declare function getRandomColor(): string;

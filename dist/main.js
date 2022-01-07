@@ -271,17 +271,8 @@ export class Create {
     }
     drawAnimationBezierCurve(paths, options) {
         const ctx = this.ctx;
-        const curvature = 0.1;
         if (ctx) {
-            ctx.save();
-            ctx.beginPath();
-            ctx.strokeStyle = (options === null || options === void 0 ? void 0 : options.color) || _color;
-            ctx.lineWidth = (options === null || options === void 0 ? void 0 : options.lineWidth) || 1;
-            ctx.moveTo(paths[0].x, paths[0].y);
-            drawBezier(this.ctx, paths);
-            ctx.stroke();
-            ctx.closePath();
-            ctx.restore();
+            drawBezier(this.ctx, this.canvasWidth, this.canvasWidth, paths, options || undefined);
         }
     }
     clearRect(x, y, width, height) {

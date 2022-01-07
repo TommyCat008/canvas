@@ -10,4 +10,7 @@ export function getBezierControlPoints(point1, point2, point3, point4, curvature
         cp2y
     };
 }
+export function getRandomColor() {
+    return '#' + Math.floor(Math.random() * 16777215).toString(16);
+}
 //# sourceMappingURL=utils.js.map

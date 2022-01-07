@@ -21,3 +21,7 @@ export function getBezierControlPoints(point1: Point, point2: Point, point3: Poi
         cp2y
     };
 }
+
+export function getRandomColor() {
+    return '#' + Math.floor(Math.random() * 16777215).toString(16);
+}
