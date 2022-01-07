@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>心电图</title>
+        <style>
+            html,
+            body {
+                margin: 0;
+            }
+
+            #canvas {
+                display: block;
+                margin: auto;
+                border: 1px solid #999;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="canvas" width="800" height="800"></canvas>
+    </body>
+    <script type="module">
+        import {Create} from '../dist/main.js';
+        const canvas = new Create('canvas');
+        const points = [];
+        let step = 10;
+        let count = 0;
+        let length = 800 / step; // 画布能坚持的长度
+
+        // 模拟1s请求来一次数据
+        setInterval(() => {
+            // 随机出现0~200的整数
+            const randomY = Math.ceil(Math.random() * 200);
+            if (length === count) {
+                points.shift();
+            } else {
+                count += 1;
+            }
+            points.push(-randomY);
+            drawCanvas();
+        }, 200);
+
+        function drawCanvas() {
+            canvas.clearCanvas();
+            canvas.setCanvasBackground('#fffce0');
+            // 绘制两条线
+            canvas.drawLine({x: 0, y: 300}, {x: 800, y: 300});
+            canvas.drawLine({x: 0, y: 500}, {x: 800, y: 500});
+
+            // 设置中心点
+            canvas.save();
+            canvas.setStartPoint(0, 500);
+
+            for (let i = 0; i < points.length - 1; i++) {
+                const startPoint = {
+                    x: (length - count + i) * step,
+                    y: points[i]
+                };
+                const endPoint = {
+                    x: (length - count + i + 1) * step,
+                    y: points[i + 1]
+                };
+                canvas.drawLine(startPoint, endPoint);
+            }
+            canvas.restore();
+        }
+
+        drawCanvas();
+    </script>
+</html>

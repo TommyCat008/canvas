@@ -60,7 +60,7 @@ export class Create {
      * @param x
      * @param y
      */
-    setStartPath(x: number, y: number) {
+    setStartPoint(x: number, y: number) {
         const ctx = this.ctx;
         if (ctx) {
             ctx.translate(x, y);
@@ -150,6 +150,8 @@ export class Create {
         const ctx = this.ctx;
         if (ctx) {
             ctx.save();
+            // 为了解决线段发虚并且粗细度不对的问题
+            ctx.translate(0.5, 0.5);
             ctx.lineJoin = 'round'; // round bevel miter
             ctx.beginPath();
             if (options?.isLineDash) {
@@ -268,7 +270,7 @@ export class Create {
         if (ctx) {
             const {sWidth, sHeight, dWidth, dHeight, point} = options;
             ctx.save();
-            this.setStartPath(point.x - dWidth / 2, point.y - dHeight / 2);
+            this.setStartPoint(point.x - dWidth / 2, point.y - dHeight / 2);
             ctx.drawImage(image, 0, 0, sWidth, sHeight, 0, 0, dWidth, dHeight);
             ctx.restore();
         }
@@ -283,7 +285,7 @@ export class Create {
         const ctx = this.ctx;
         if (ctx) {
             ctx.save();
-            this.setStartPath(startPoint.x, startPoint.y);
+            this.setStartPoint(startPoint.x, startPoint.y);
             // 默认是向下
             if (options?.direction === 'top') {
                 ctx.rotate((-180 * Math.PI) / 180);

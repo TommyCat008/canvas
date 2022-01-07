@@ -7,7 +7,7 @@ export declare class Create {
     protected canvasBgColor: string | CanvasGradient | CanvasPattern;
     constructor(container: string | HTMLCanvasElement, options?: CreateOptionProps);
     createCanvas(container: string | HTMLCanvasElement, options?: CreateOptionProps): void;
-    setStartPath(x: number, y: number): void;
+    setStartPoint(x: number, y: number): void;
     setDrawPoint(point: Point): void;
     setRotate(angle: number): void;
     setCanvasBackground(color: string): void;

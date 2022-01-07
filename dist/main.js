@@ -60,7 +60,7 @@ export class Create {
             this.setCanvasBackground(options.background);
         }
     }
-    setStartPath(x, y) {
+    setStartPoint(x, y) {
         const ctx = this.ctx;
         if (ctx) {
             ctx.translate(x, y);
@@ -116,6 +116,7 @@ export class Create {
         const ctx = this.ctx;
         if (ctx) {
             ctx.save();
+            ctx.translate(0.5, 0.5);
             ctx.lineJoin = 'round';
             ctx.beginPath();
             if (options === null || options === void 0 ? void 0 : options.isLineDash) {
@@ -196,7 +197,7 @@ export class Create {
         if (ctx) {
             const { sWidth, sHeight, dWidth, dHeight, point } = options;
             ctx.save();
-            this.setStartPath(point.x - dWidth / 2, point.y - dHeight / 2);
+            this.setStartPoint(point.x - dWidth / 2, point.y - dHeight / 2);
             ctx.drawImage(image, 0, 0, sWidth, sHeight, 0, 0, dWidth, dHeight);
             ctx.restore();
         }
@@ -205,7 +206,7 @@ export class Create {
         const ctx = this.ctx;
         if (ctx) {
             ctx.save();
-            this.setStartPath(startPoint.x, startPoint.y);
+            this.setStartPoint(startPoint.x, startPoint.y);
             if ((options === null || options === void 0 ? void 0 : options.direction) === 'top') {
                 ctx.rotate((-180 * Math.PI) / 180);
                 ctx.translate(-8, -4);

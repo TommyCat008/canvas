@@ -76,7 +76,7 @@ export interface Create {
     canvasHeight: number;
     canvasBgColor: string | CanvasGradient | CanvasPattern;
     createCanvas(container: string | HTMLCanvasElement, options?: CreateOptionProps): void;
-    setStartPath(x: number, y: number): void;
+    setStartPoint(x: number, y: number): void;
     setDrawPoint(point: Point): void;
     setRotate(angle: number): void;
     setCanvasBackground(color: string): void;
