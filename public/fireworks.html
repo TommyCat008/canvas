@@ -27,20 +27,76 @@
     </body>
     <script type="module">
         import {Create} from '../dist/main.js';
-        // const el = document.getElementById('canvas');
-        // const width = document.body.clientWidth;
-        // const height = document.body.clientHeight;
-        // console.log(width, height)
-        // el.width = width;
-        // el.height = height;
+        const el = document.getElementById('canvas');
+        const width = document.body.clientWidth;
+        const height = document.body.clientHeight;
+        el.width = width;
+        el.height = height;
         const canvas = new Create('canvas');
+        canvas.setCanvasBackground('#000');
+        const ctx = canvas.ctx;
+        const speed = 10;
 
-        console.log(canvas);
-        function drawAnimation() {
-            canvas.clearCanvas();
-            canvas.setCanvasBackground('#000');
+        // 设置拖影
+        // ctx.globalCompositeOperation = 'destination-out';
+        // ctx.fillStyle = 'rgba(0,0,0,' + 10 / 100 + ')';
+        // ctx.fillRect(0, 0, width, height);
+        // ctx.globalCompositeOperation = 'lighter';
+
+        let hue = Math.random() * 360;
+        let hueVariance = 60;
+        function setColors(firework) {
+            firework.hue = Math.floor(Math.random() * (hue + hueVariance - (hue - hueVariance))) + (hue - hueVariance);
+            firework.brightness = Math.floor(Math.random() * 21) + 50;
+            firework.alpha = (Math.floor(Math.random() * 60) + 40) / 100;
         }
 
+        // 绘制烟花
+        function drawFires(firework) {
+            const count = 20;
+            for (let i = 0; i < count; i++) {
+                setColors(firework);
+                const angle = (360 / count) * i;
+                const radians = (angle * Math.PI) / 180;
+                const x = firework.x + Math.cos(radians) * firework.radius;
+                const y = firework.y + Math.sin(radians) * firework.radius + 1;
+                // console.log(x, y);
+                // firework.x += x;
+                // firework.y += y;
+                canvas.drawPoint(x, y, 2, {
+                    color: `HSLA(${firework.hue}, 100%, ${firework.brightness}%, ${firework.alpha})`
+                });
+            }
+        }
+
+        function drawAnimation() {
+            // 每次设置黑色背景颜色
+            canvas.setCanvasBackground('#000');
+
+            // 设置拖尾效果
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.fillStyle = 'rgba(0,0,0,' + 10 / 100 + ')';
+            ctx.fillRect(0, 0, width, height);
+            ctx.globalCompositeOperation = 'lighter';
+
+            fireworks.forEach((firework) => {
+                firework.radius += 0.5;
+                firework.alpha -= 0.01;
+                drawFires(firework);
+                if (firework.radius === 100) {
+                    firework.radius = 10;
+                }
+            });
+
+            requestAnimationFrame(drawAnimation);
+        }
+
+        const fireworks = [
+            {x: 200, y: 300, radius: 10},
+            {x: 600, y: 800, radius: 2},
+            {x: 1200, y: 300, radius: 30},
+            {x: 800, y: 800, radius: 50}
+        ];
         drawAnimation();
     </script>
 </html>
