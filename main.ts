@@ -104,7 +104,7 @@ export class Create {
             ctx.save();
             // 这里要按顺序填写 字重、字号、字体
             ctx.font = `${options?.fontWeight || 400} ${options?.fontSize || '14px'} ${
-                options?.fontFamily || '微软雅黑'
+                options?.fontFamily || 'PingFang SC'
             }`;
             // 设置文字的水平位置
             ctx.textAlign = 'center';
