@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>playground</title>
+        <style>
+            html,
+            body {
+                margin: 0;
+            }
+
+            #canvas {
+                display: block;
+                margin: auto;
+                border: 1px solid #999;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="canvas" width="800" height="800"></canvas>
+    </body>
+    <script type="module">
+        import {Create} from '../dist/main.js';
+        const canvas = new Create('canvas');
+        console.log(canvas);
+        // g是重力系数
+        // cx是空气阻力
+        // vx是x方向的运动速率
+        // vy是y方向的运动速率
+        // g是重力加速度
+        const ball = {x: 400, y: 100, r: 10, vx: 1, vy: 0, g: 1, cx: 0.5};
+
+        function update() {
+            // 小球按照各自的方向算出来渲染位置
+            // ball.x += ball.vx;
+            ball.y += ball.vy;
+            ball.vy += ball.g;
+            // 着地了
+            if (ball.y >= canvas.canvasHeight - ball.r) {
+                ball.y = canvas.canvasHeight - ball.r;
+                ball.vy = -ball.vy * ball.cx;
+            }
+            // 判断小数点后面的位数，超出3位的就判断为已经弹跳结束
+            if (ball.vy.toString().split('.')[1]?.length >= 10) {
+                return;
+            }
+            canvas.clearCanvas();
+            canvas.drawCircle({x: ball.x, y: ball.y}, ball.r, {fillColor: 'blue', strokeColor: 'blue', isFill: true});
+            requestAnimationFrame(update);
+        }
+
+        update();
+    </script>
+</html>

@@ -38,8 +38,6 @@
         const ctx = canvas.ctx;
         let fireworks = [];
         let fireworkTimer = 0;
-        let textRenderTimer = 0;
-        let count = 0;
 
         function getHue() {
             let hue = Math.random() * 360;
@@ -135,57 +133,6 @@
                 fireworks[i].update(i);
             }
 
-            // 渲染字体
-            if (count >= 1) {
-                canvas.drawText('老虎来，嗷嗷叫；', width / 2, 120, {
-                    fontSize: '32px',
-                    fontFamily: 'PingFang SC',
-                    color: '#b8860b'
-                });
-            }
-            if (count >= 2) {
-                canvas.drawText('风雨顺，五谷笑；', width / 2, 160, {
-                    fontSize: '32px',
-                    color: '#b8860b'
-                });
-            }
-            if (count >= 3) {
-                canvas.drawText('事如意，平安罩；', width / 2, 200, {
-                    fontSize: '32px',
-                    color: '#b8860b'
-                });
-            }
-            if (count >= 4) {
-                canvas.drawText('身体棒，福寿到；', width / 2, 240, {
-                    fontSize: '32px',
-                    color: '#b8860b'
-                });
-            }
-            if (count >= 5) {
-                canvas.drawText('亲满堂，欢乐绕；', width / 2, 280, {
-                    fontSize: '32px',
-                    color: '#b8860b'
-                });
-            }
-            if (count >= 6) {
-                canvas.drawText('幸运找，吉星照；', width / 2, 320, {
-                    fontSize: '32px',
-                    color: '#b8860b'
-                });
-            }
-            if (count >= 7) {
-                canvas.drawText('全无忧，尽逍遥。', width / 2, 360, {
-                    fontSize: '32px',
-                    color: '#b8860b'
-                });
-            }
-            if (count >= 8) {
-                canvas.drawText('祝您：春节快乐！', width / 2, 420, {
-                    fontSize: '32px',
-                    color: '#b8860b'
-                });
-            }
-
             // 定时器结束了，也没有必要再渲染了
             if (fireworkTimer === 0) {
                 return;
@@ -206,13 +153,6 @@
         }
         mockFireworks();
 
-        textRenderTimer = setInterval(() => {
-            if (count >= 8) {
-                clearInterval(textRenderTimer);
-            }
-            count++;
-        }, 1000);
-
         drawAnimation();
 
         // 处理定时器的问题
@@ -220,7 +160,6 @@
             // tab 隐藏
             if (document.hidden) {
                 clearInterval(fireworkTimer);
-                clearInterval(textRenderTimer);
                 fireworkTimer = 0;
             } else {
                 mockFireworks();

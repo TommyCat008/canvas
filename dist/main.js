@@ -86,7 +86,7 @@ export class Create {
         const ctx = this.ctx;
         if (ctx) {
             ctx.save();
-            ctx.font = `${(options === null || options === void 0 ? void 0 : options.fontWeight) || 400} ${(options === null || options === void 0 ? void 0 : options.fontSize) || '14px'} ${(options === null || options === void 0 ? void 0 : options.fontFamily) || '微软雅黑'}`;
+            ctx.font = `${(options === null || options === void 0 ? void 0 : options.fontWeight) || 400} ${(options === null || options === void 0 ? void 0 : options.fontSize) || '14px'} ${(options === null || options === void 0 ? void 0 : options.fontFamily) || 'PingFang SC'}`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             if ((options === null || options === void 0 ? void 0 : options.isStroke) === true) {
