@@ -17,6 +17,8 @@ export interface DrawLineOptionProps extends OptionProps {
 
 export interface CreateOptionProps {
     background: string;
+    clientWidth?: number;
+    clientHeight?: number;
 }
 
 export interface DrawTextOptionProps {
