@@ -52,10 +52,7 @@ export class Create {
             console.error('container should be typed as string or HTMLCanvasElement');
             return;
         }
-        if (options === null || options === void 0 ? void 0 : options.background) {
-            this.canvasBgColor = options.background;
-            this.setCanvasBackground(options.background);
-        }
+        this.ctx = this.container.getContext('2d');
         if (options === null || options === void 0 ? void 0 : options.clientWidth) {
             this.container.width = options.clientWidth;
         }
@@ -64,7 +61,10 @@ export class Create {
         }
         this.canvasWidth = this.container.width;
         this.canvasHeight = this.container.height;
-        this.ctx = this.container.getContext('2d');
+        if (options === null || options === void 0 ? void 0 : options.background) {
+            this.canvasBgColor = options.background;
+            this.setCanvasBackground(options.background);
+        }
     }
     setStartPoint(x, y) {
         const ctx = this.ctx;

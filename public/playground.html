@@ -23,7 +23,35 @@
     </body>
     <script type="module">
         import {Create} from '../dist/main.js';
-        const canvas = new Create('canvas');
-        canvas.drawSector({x: 300, y: 300}, 40, 0, 1 * Math.PI);
+        const canvas = new Create('canvas', {
+            background: '#000'
+        });
+        const {ctx} = canvas;
+        // ctx.moveTo(200, 200);
+        // ctx.lineTo(600, 200);
+        ctx.shadowBlur = 1;
+        ctx.lineWidth = 4;
+        // ctx.globalCompositeOperation = 'xor';
+        ctx.shadowColor = 'rgba(27, 71, 193, 0.8)';
+        // ctx.strokeStyle = 'rgba(27, 71, 193, 0.2)';
+        // ctx.stroke();
+        ctx.moveTo(200, 300);
+        ctx.lineTo(600, 300);
+        const gradient = ctx.createLinearGradient(200, 200, 600, 200);
+        gradient.addColorStop(0, 'rgba(27, 71, 193, 0.2)');
+        gradient.addColorStop(8 / 400, 'rgba(27, 71, 193, 0.2)');
+        gradient.addColorStop(12 / 400, '#00FFFF');
+        gradient.addColorStop(48 / 400, 'rgba(115, 136, 255, 0)');
+        gradient.addColorStop(49 / 400, 'rgba(27, 71, 193, 0.2)');
+
+        gradient.addColorStop(100 / 400, 'rgba(27, 71, 193, 0.2)');
+        gradient.addColorStop(104 / 400, '#00FFFF');
+        gradient.addColorStop(140 / 400, 'rgba(115, 136, 255, 0)');
+        gradient.addColorStop(141 / 400, 'rgba(27, 71, 193, 0.2)');
+
+        gradient.addColorStop(1, 'rgba(27, 71, 193, 0.2)');
+        ctx.strokeStyle = gradient;
+        ctx.lineCap = 'round';
+        ctx.stroke();
     </script>
 </html>
