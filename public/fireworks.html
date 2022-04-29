@@ -19,6 +19,7 @@
                 margin: auto;
                 width: 100%;
                 height: 100%;
+                background-image: url('./star.jpg');
             }
         </style>
     </head>
@@ -35,24 +36,12 @@
         const canvas = new Create('canvas');
         canvas.setCanvasBackground('#000');
         const ctx = canvas.ctx;
-
-        // 设置拖影
-        // ctx.globalCompositeOperation = 'destination-out';
-        // ctx.fillStyle = 'rgba(0,0,0,' + 10 / 100 + ')';
-        // ctx.fillRect(0, 0, width, height);
-        // ctx.globalCompositeOperation = 'lighter';
-
-        // function setColors(firework) {
-        //     let hue = Math.random() * 360;
-        //     let hueVariance = 60;
-        //     firework.hue = Math.floor(Math.random() * (hue + hueVariance - (hue - hueVariance))) + (hue - hueVariance);
-        //     firework.brightness = Math.floor(Math.random() * 21) + 50;
-        //     // firework.alpha = (Math.floor(Math.random() * 60) + 40) / 100;
-        // }
+        let fireworks = [];
+        let fireworkTimer = 0;
 
         function getHue() {
             let hue = Math.random() * 360;
-            let hueVariance = 60;
+            let hueVariance = 200;
             return Math.floor(Math.random() * (hue + hueVariance - (hue - hueVariance))) + (hue - hueVariance);
         }
 
@@ -87,7 +76,7 @@
                 // 随机色调（基础色调-20和+20之间）
                 this.hue = randomRange(hue - 20, hue + 20);
                 // 随机亮度
-                this.brightness = randomRange(50, 80);
+                this.brightness = Math.floor(Math.random() * 21) + 50;
                 // 初始透明度
                 this.alpha = 1;
                 // 随机的透明度衰变系数（透明度减淡）
@@ -131,7 +120,7 @@
 
         function drawAnimation() {
             // 每次设置黑色背景颜色
-            canvas.setCanvasBackground('#000');
+            // canvas.setCanvasBackground('#000');
 
             // 设置拖尾效果
             ctx.globalCompositeOperation = 'destination-out';
@@ -144,19 +133,39 @@
                 fireworks[i].update(i);
             }
 
+            // 定时器结束了，也没有必要再渲染了
+            if (fireworkTimer === 0) {
+                return;
+            }
             requestAnimationFrame(drawAnimation);
         }
 
-        let fireworks = [];
-
-        setInterval(() => {
-            const x = Math.ceil(Math.random() * width);
-            const y = Math.ceil(Math.random() * height);
-            for (let i = 0; i < 100; i++) {
-                fireworks.push(new Particle(x, y, getHue()));
-            }
-        }, 200);
+        // 模拟烟花位置
+        function mockFireworks() {
+            fireworkTimer = setInterval(() => {
+                const x = Math.ceil(Math.random() * width);
+                const y = Math.ceil(Math.random() * height);
+                const color = getHue();
+                for (let i = 0; i < 100; i++) {
+                    fireworks.push(new Particle(x, y, color));
+                }
+            }, 300);
+        }
+        mockFireworks();
 
         drawAnimation();
+
+        // 处理定时器的问题
+        function handleVisibilityChange() {
+            // tab 隐藏
+            if (document.hidden) {
+                clearInterval(fireworkTimer);
+                fireworkTimer = 0;
+            } else {
+                mockFireworks();
+            }
+        }
+
+        document.addEventListener('visibilitychange', handleVisibilityChange);
     </script>
 </html>

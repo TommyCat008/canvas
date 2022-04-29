@@ -52,9 +52,15 @@ export class Create {
             console.error('container should be typed as string or HTMLCanvasElement');
             return;
         }
+        this.ctx = this.container.getContext('2d');
+        if (options === null || options === void 0 ? void 0 : options.clientWidth) {
+            this.container.width = options.clientWidth;
+        }
+        if (options === null || options === void 0 ? void 0 : options.clientHeight) {
+            this.container.height = options.clientHeight;
+        }
         this.canvasWidth = this.container.width;
         this.canvasHeight = this.container.height;
-        this.ctx = this.container.getContext('2d');
         if (options === null || options === void 0 ? void 0 : options.background) {
             this.canvasBgColor = options.background;
             this.setCanvasBackground(options.background);
@@ -86,7 +92,7 @@ export class Create {
         const ctx = this.ctx;
         if (ctx) {
             ctx.save();
-            ctx.font = `${(options === null || options === void 0 ? void 0 : options.fontWeight) || 400} ${(options === null || options === void 0 ? void 0 : options.fontSize) || '14px'} ${(options === null || options === void 0 ? void 0 : options.fontFamily) || '微软雅黑'}`;
+            ctx.font = `${(options === null || options === void 0 ? void 0 : options.fontWeight) || 400} ${(options === null || options === void 0 ? void 0 : options.fontSize) || '14px'} ${(options === null || options === void 0 ? void 0 : options.fontFamily) || 'PingFang SC'}`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             if ((options === null || options === void 0 ? void 0 : options.isStroke) === true) {
@@ -162,7 +168,6 @@ export class Create {
         if (ctx) {
             ctx.save();
             ctx.beginPath();
-            ctx.moveTo(0, 0);
             ctx.fillStyle = (options === null || options === void 0 ? void 0 : options.fillColor) || _color;
             ctx.arc(point.x, point.y, radius, startAngle, endAngle);
             ctx.closePath();
@@ -182,15 +187,21 @@ export class Create {
                 ctx.setLineDash([4, 8]);
                 ctx.lineDashOffset = options.lineDashOffset || 2;
             }
-            ctx.strokeRect(point.x, point.y, width, height);
             ctx.fillStyle = (options === null || options === void 0 ? void 0 : options.fillColor) || _color;
             if (options === null || options === void 0 ? void 0 : options.isFill) {
+                ctx.rect(point.x, point.y, width, height);
                 ctx.fill();
+            }
+            else {
+                ctx.strokeRect(point.x, point.y, width, height);
             }
             ctx.stroke();
             ctx.closePath();
             ctx.restore();
         }
+    }
+    drawCenterRect(point, width, height, options) {
+        this.drawRect({ x: point.x - width / 2, y: point.y - height / 2 }, width, height, options);
     }
     drawImage(image, options) {
         const ctx = this.ctx;

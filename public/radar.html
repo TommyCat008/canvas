@@ -74,9 +74,17 @@
             let startAngle = angle * Math.PI;
             let endAngle = angle * Math.PI + Math.PI / 180;
             for (let i = 0; i < 50; i++) {
-                canvas.drawSector({x: 0, y: 0}, 220, startAngle, endAngle, {
-                    fillColor: `rgba(0, 128, 0, ${i / 50})`
-                });
+                canvas.ctx.save();
+                canvas.ctx.beginPath();
+                // 这里我不晓得为什么会是需要设置落笔点到这里
+                // 2022年03月02日17:31:36 这里设置绘制落笔点到初始位，不然在页面上无法展示扫描扇形
+                canvas.ctx.moveTo(0, 0);
+                canvas.ctx.fillStyle = `rgba(0, 128, 0, ${i / 50})`;
+                canvas.ctx.arc(0, 0, 220, startAngle, endAngle);
+                canvas.ctx.closePath();
+                canvas.ctx.fill();
+                canvas.ctx.restore();
+
                 startAngle = endAngle;
                 endAngle += Math.PI / 180;
             }

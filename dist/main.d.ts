@@ -2,8 +2,8 @@ import { CreateOptionProps, DrawArrowOptionProps, DrawBezierOptionProps, DrawCir
 export declare class Create {
     container: HTMLCanvasElement | null;
     ctx: CanvasRenderingContext2D | null;
-    protected canvasWidth: number;
-    protected canvasHeight: number;
+    canvasWidth: number;
+    canvasHeight: number;
     protected canvasBgColor: string | CanvasGradient | CanvasPattern;
     constructor(container: string | HTMLCanvasElement, options?: CreateOptionProps);
     createCanvas(container: string | HTMLCanvasElement, options?: CreateOptionProps): void;
@@ -18,6 +18,7 @@ export declare class Create {
     drawCircle(point: Point, radius: number, options?: DrawCircleOptionProps): void;
     drawSector(point: Point, radius: number, startAngle: number, endAngle: number, options?: DrawSectorOptionProps): void;
     drawRect(point: Point, width: number, height: number, options?: DrawRectOptionProps): void;
+    drawCenterRect(point: Point, width: number, height: number, options?: DrawRectOptionProps): void;
     drawImage(image: CanvasImageSource, options: DrawImageOptionProps): void;
     drawArrow(startPoint: Point, options?: DrawArrowOptionProps): void;
     _getBezierCurveTo(point1: Point, point2: Point, point3: Point, point4: Point, curvature: number): {

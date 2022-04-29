@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>烟花</title>
+        <style>
+            body {
+                margin: 0;
+                background-color: #000;
+            }
+
+            canvas {
+                display: block;
+            }
+        </style>
+    </head>
+
+    <body>
+        <canvas id="canvas"></canvas>
+        <script src="https://cdn.bootcdn.net/ajax/libs/lodash.js/4.17.21/lodash.js"></script>
+        <script type="module">
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            const canvasWidth = window.innerWidth;
+            const canvasHeight = window.innerHeight;
+
+            // canvas全屏
+            canvas.width = canvasWidth;
+            canvas.height = canvasHeight;
+
+            // 设置发射点
+            const shootPoint = {
+                x: Math.ceil(canvasWidth / 2),
+                y: Math.ceil(canvasHeight - 50)
+            };
+            const point = _.cloneDeep(shootPoint);
+
+            // 获取范围内的随机数
+            function randomRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            // let speed = randomRange(5, 10);
+            let speed = 10;
+            const friction = 0.95; // 向上空气的阻力
+            // const gravity = 1; // 作用于y轴加速度 模拟往下坠
+
+            function renderCanvas() {
+                ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+                // 开始绘制
+                ctx.beginPath();
+                ctx.moveTo(point.x, point.y);
+                ctx.lineTo(point.x, point.y - 100);
+                ctx.lineCap = 'round';
+                ctx.strokeStyle = 'red'; // 仅亮度会变化
+                ctx.lineWidth = 4;
+                ctx.stroke();
+
+                // 速度应该是逐级递减的
+                speed *= friction;
+                point.y -= speed * 4;
+
+                // if (point.y > 200) {
+                    requestAnimationFrame(renderCanvas);
+                // }
+            }
+
+            renderCanvas();
+        </script>
+    </body>
+</html>

@@ -20,8 +20,8 @@ const _lineWidth = 1;
 export class Create {
     public container: HTMLCanvasElement | null;
     public ctx: CanvasRenderingContext2D | null;
-    protected canvasWidth: number;
-    protected canvasHeight: number;
+    public canvasWidth: number;
+    public canvasHeight: number;
     protected canvasBgColor: string | CanvasGradient | CanvasPattern;
     constructor(container: string | HTMLCanvasElement, options?: CreateOptionProps) {
         this.container = null;
@@ -46,9 +46,17 @@ export class Create {
             console.error('container should be typed as string or HTMLCanvasElement');
             return;
         }
+        this.ctx = this.container.getContext('2d');
+
+        if (options?.clientWidth) {
+            this.container.width = options.clientWidth;
+        }
+        if (options?.clientHeight) {
+            this.container.height = options.clientHeight;
+        }
         this.canvasWidth = this.container.width;
         this.canvasHeight = this.container.height;
-        this.ctx = this.container.getContext('2d');
+        
         if (options?.background) {
             this.canvasBgColor = options.background;
             this.setCanvasBackground(options.background);
@@ -83,6 +91,10 @@ export class Create {
         }
     }
 
+    /**
+     * 设置canvas的背景颜色
+     * @param color
+     */
     setCanvasBackground(color: string) {
         if (this.ctx) {
             this.ctx.fillStyle = color;
@@ -104,7 +116,7 @@ export class Create {
             ctx.save();
             // 这里要按顺序填写 字重、字号、字体
             ctx.font = `${options?.fontWeight || 400} ${options?.fontSize || '14px'} ${
-                options?.fontFamily || '微软雅黑'
+                options?.fontFamily || 'PingFang SC'
             }`;
             // 设置文字的水平位置
             ctx.textAlign = 'center';
@@ -207,7 +219,7 @@ export class Create {
     }
 
     /**
-     * 绘制圆弧
+     * 绘制扇形
      * @param point
      * @param radius
      * @param startAngle
@@ -219,8 +231,6 @@ export class Create {
         if (ctx) {
             ctx.save();
             ctx.beginPath();
-            // 这里我不晓得为什么会是需要设置落笔点到这里
-            ctx.moveTo(0, 0);
             ctx.fillStyle = options?.fillColor || _color;
             ctx.arc(point.x, point.y, radius, startAngle, endAngle);
             ctx.closePath();
@@ -248,16 +258,29 @@ export class Create {
                 ctx.setLineDash([4, 8]);
                 ctx.lineDashOffset = options.lineDashOffset || 2;
             }
-            ctx.strokeRect(point.x, point.y, width, height);
-            // ctx.roundRect(point.x, point.y, width, height, 20);
+
             ctx.fillStyle = options?.fillColor || _color;
             if (options?.isFill) {
+                ctx.rect(point.x, point.y, width, height);
                 ctx.fill();
+            } else {
+                ctx.strokeRect(point.x, point.y, width, height);
             }
             ctx.stroke();
             ctx.closePath();
             ctx.restore();
         }
+    }
+
+    /**
+     * 指定创建一个指定图形中心的矩形
+     * @param point
+     * @param width
+     * @param height
+     * @param options
+     */
+    drawCenterRect(point: Point, width: number, height: number, options?: DrawRectOptionProps) {
+        this.drawRect({x: point.x - width / 2, y: point.y - height / 2}, width, height, options);
     }
 
     /**
