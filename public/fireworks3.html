@@ -28,23 +28,9 @@
             canvas.width = canvasWidth;
             canvas.height = canvasHeight;
 
-            // 设置发射点
-            const shootPoint = {
-                x: Math.ceil(canvasWidth / 2),
-                y: canvasHeight
-            };
-            const point = _.cloneDeep(shootPoint);
-
-            const friction = 9.8; // 向上空气的阻力，其实也是模拟重力
-
             // 获取范围内的随机数
             function randomRange(min, max) {
                 return Math.random() * (max - min) + min;
-            }
-
-            // 模拟初始速度
-            function mockOriginalSpeed(h) {
-                return Math.floor(Math.sqrt(2 * friction * h));
             }
 
             // 获取hue
@@ -54,44 +40,119 @@
                 return Math.floor(Math.random() * (hue + hueVariance - (hue - hueVariance))) + (hue - hueVariance);
             }
 
-            let speed = mockOriginalSpeed(randomRange(canvasHeight * 0.7, canvasHeight));
-            let hue = getHue();
-            let brightness = randomRange(60, 70);
-            let alpha = 1;
-            let alphaDecay = randomRange(0.015, 0.03);
+            class Firework {
+                constructor(sx, sy, tx, ty) {
+                    // 当前坐标
+                    this.x = sx;
+                    this.y = sy;
+                    // 起始点坐标
+                    this.sx = sx;
+                    this.sy = sy;
+                    // 目标点坐标
+                    this.tx = tx;
+                    this.ty = ty;
 
+                    // 起始点到目标点的距离
+                    this.totalDistance = this.calcPointsDistance(sx, sy, tx, ty);
+                    // 用于判断是否走完路程
+                    this.distanceTraveled = 0;
+                    // 随机弧度
+                    this.angle = Math.atan2(ty - sy, tx - sx);
+                    // 向上空气的阻力，其实也是模拟重力
+                    this.friction = 0.98;
+                    // 随机速度
+                    this.speed = this.mockOriginalSpeed(sy - ty);
+                    // 透明度
+                    this.alpha = 1;
+                    // 透明度衰减度
+                    this.alphaDecay = randomRange(0.015, 0.03);
+                    // 随机hue
+                    this.hue = getHue();
+                    // 随机亮度
+                    this.brightness = randomRange(60, 70);
+                    // 烟花的轨迹坐标
+                    this.coords = [[this.x, this.y]];
+                }
+
+                calcPointsDistance(sx, sy, tx, ty) {
+                    return Math.sqrt(Math.pow(tx - sx, 2) + Math.pow(ty - sy, 2));
+                }
+
+                // 模拟初始速度
+                mockOriginalSpeed(h) {
+                    return Math.floor(Math.sqrt(2 * this.friction * h));
+                }
+
+                update(index) {
+                    this.coords.pop();
+                    this.coords.unshift([this.x, this.y]);
+                    this.alpha -= this.alphaDecay;
+                    this.speed *= this.friction;
+                    const vx = Math.cos(this.angle) * this.speed;
+                    const vy = Math.sin(this.angle) * this.speed;
+
+                    // 计算出移动后的距离
+                    this.distanceTraveled = this.calcPointsDistance(this.sx, this.sy, this.x + vx, this.y + vy);
+
+                    if (this.distanceTraveled >= this.totalDistance) {
+                        // for (let i = 0; i < 75; i++) {
+                        //     particles.push(new Particle(this.tx, this.ty, this.hue));
+                        // }
+                        fireworks.splice(index, 1);
+                    } else {
+                        this.x += vx;
+                        this.y += vy;
+                    }
+                }
+
+                draw() {
+                    if (this.speed < 0) {
+                        return;
+                    }
+                    ctx.beginPath();
+                    const [startX, startY] = this.coords[this.coords.length - 1];
+                    ctx.moveTo(startX, startY);
+                    ctx.lineTo(this.x, this.y);
+                    ctx.lineCap = 'round';
+                    ctx.strokeStyle = `hsla(${this.hue}, 100%, ${this.brightness}%,${this.alpha})`; // 仅亮度会变化
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                }
+            }
+
+            const fireworks = [];
             function renderCanvas() {
                 ctx.globalCompositeOperation = 'destination-out'; // 现有内容保持在新图形不重叠的地方
-                ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
                 ctx.fillRect(0, 0, canvasWidth, canvasHeight);
                 ctx.globalCompositeOperation = 'lighter';
 
-                // 开始绘制
-                const distance = speed - 0.5 * friction;
-                ctx.beginPath();
-                ctx.moveTo(point.x, point.y);
-                ctx.lineTo(point.x, point.y - distance + 2);
-                ctx.lineCap = 'round';
-                ctx.strokeStyle = `hsla(${hue}, 100%, ${brightness}%,${alpha})`; // 仅亮度会变化
-                ctx.lineWidth = 2;
-                ctx.stroke();
-
-                // 速度应该是逐级递减的
-                speed -= friction;
-                alpha -= alphaDecay;
-                point.y -= distance;
-
-                if (speed < 0) {
-                    return;
-                    point.y = canvasHeight;
-                    speed = mockOriginalSpeed(randomRange(canvasHeight / 2, canvasHeight));
-                    hue = getHue();;
-                    brightness = randomRange(60, 70);
-                    alpha = 1;
-                    alphaDecay = randomRange(0.015, 0.03);
+                for (let i = 0; i < fireworks.length; i++) {
+                    fireworks[i].draw();
+                    fireworks[i].update(i);
                 }
+
                 requestAnimationFrame(renderCanvas);
             }
+
+            function mockFirework() {
+                for (let i = 0; i < 8; i++) {
+                    fireworks.push(
+                        new Firework(
+                            canvasWidth / 2,
+                            canvasHeight,
+                            randomRange(0, canvasWidth),
+                            randomRange(0, canvasHeight * 0.7)
+                        )
+                    );
+                }
+            }
+
+            setInterval(() => {
+                mockFirework();
+            }, 2000);
+
+            mockFirework();
 
             renderCanvas();
         </script>
