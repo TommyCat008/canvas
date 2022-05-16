@@ -191,7 +191,6 @@
                 ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
                 ctx.fillRect(0, 0, canvasWidth, canvasHeight);
                 ctx.globalCompositeOperation = 'lighter';
-
                 // 循环绘制烟花
                 for (let i = 0; i < fireworks.length; i++) {
                     fireworks[i].draw();
@@ -247,10 +246,9 @@
                 canvasHeight = window.innerHeight;
                 canvas.width = canvasWidth;
                 canvas.height = canvasHeight;
-                console.log(111);
             }
 
-            document.addEventListener('visibilitychange', handleVisibilityChange);
+            window.addEventListener('visibilitychange', handleVisibilityChange);
             window.addEventListener('resize', resizeCanvas);
         </script>
     </body>
